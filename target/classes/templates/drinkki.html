@@ -7,8 +7,10 @@
     </head>
 
     <body>
-        <h1>Tervetuloa upeahkoon drinkkilistaan</h1>
+        <h1>Hei <span th:text="${drinkki.nimi}">drinkki</span>!</h1>
 
-        <p><a href="/drinkit">drinkkilista</a></p>
+        <p>Olet saapunut drinkin <span th:text="${drinkki.nimi}">drinkki</span> drinksusivulle.</p>
     </body>
 </html>
+
+

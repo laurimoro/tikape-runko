@@ -5,15 +5,19 @@ import spark.ModelAndView;
 import static spark.Spark.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape.runko.database.Database;
-import tikape.runko.database.OpiskelijaDao;
+import tikape.runko.database.DrinkkiDao;
+import tikape.runko.database.RaakaAineDao;
+import tikape.runko.domain.Drinkki;
+import tikape.runko.domain.RaakaAine;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        Database database = new Database("jdbc:sqlite:opiskelijat.db");
+        Database database = new Database("jdbc:sqlite:drinkit.db");
         database.init();
 
-        OpiskelijaDao opiskelijaDao = new OpiskelijaDao(database);
+        DrinkkiDao drinkkiDao = new DrinkkiDao(database);
+        RaakaAineDao raakaAineDao = new RaakaAineDao(database);
 
         get("/", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -22,18 +26,56 @@ public class Main {
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
 
-        get("/opiskelijat", (req, res) -> {
+        get("/drinkit", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("opiskelijat", opiskelijaDao.findAll());
+            map.put("drinkit", drinkkiDao.findAll());
 
-            return new ModelAndView(map, "opiskelijat");
+            return new ModelAndView(map, "drinkit");
         }, new ThymeleafTemplateEngine());
 
-        get("/opiskelijat/:id", (req, res) -> {
+        get("/drinkit/:id", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("opiskelija", opiskelijaDao.findOne(Integer.parseInt(req.params("id"))));
+            map.put("drinkki", drinkkiDao.findOne2(Integer.parseInt(req.params("id"))));
 
-            return new ModelAndView(map, "opiskelija");
+            return new ModelAndView(map, "drinkki");
         }, new ThymeleafTemplateEngine());
+
+        get("/lisaa", (req, res) -> {
+            HashMap map = new HashMap<>();
+            map.put("drinkit", drinkkiDao.findAll());
+            map.put("raakaAineet", raakaAineDao.findAll());
+
+            return new ModelAndView(map, "lisays");
+        }, new ThymeleafTemplateEngine());
+
+        post("/lisatty", (req, res) -> {
+            Drinkki drinkki = new Drinkki(-1, req.queryParams("uusiDrinkki"));
+            drinkkiDao.save(drinkki);
+
+            res.redirect("/lisaa");
+            return "moikka";
+        });
+        post("/lisaa", (req, res) -> {
+            int id = Integer.parseInt(req.queryParams("drinksu"));
+            int raakaAineid = Integer.parseInt(req.queryParams("raakaAine"));
+            int jarjestys = Integer.parseInt(req.queryParams("jarjestys"));
+            String maara = req.queryParams("maara");
+            String ohje = req.queryParams("ohje");
+
+            drinkkiDao.update(id, raakaAineid, jarjestys, maara, ohje);
+
+            res.redirect("/lisaa");
+            return "moikka";
+        });
+
+        post("/raakaaine", (req, res) -> {
+            RaakaAine raakis = new RaakaAine(-1, req.queryParams("uusiraaka"));
+
+            raakaAineDao.save(raakis);
+
+            res.redirect("/lisaa");
+            return "moikka";
+        });
+
     }
 }

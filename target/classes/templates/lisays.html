@@ -1,0 +1,63 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Otsikko</title>
+
+    </head>
+
+    <body>
+        <h2>drinkit</h2>
+
+        <ol>
+            <li th:each="drinkki: ${drinkit}">
+                <span th:text="${drinkki.nimi}">drinkin nimi</span> <a th:href="${'/drinkit/' + drinkki.id}">linkki</a>
+            </li>
+        </ol>
+        <h4>Tee uusi:</h4>
+        <form method="POST" action="/lisatty">
+            Drinkin nimi:<br/>
+            <input type="text" name="uusiDrinkki"/><br/>
+            <input type="submit" value="Lisää"/>
+        </form>
+
+        <h4>Lis&auml;&auml; raaka-aineita</h4>
+
+        <form method="POST" action="/lisaa">
+            Drinkin nimi: <br/>
+            <select name="drinksu">
+                <option th:each="drinkki: ${drinkit}" th:value="${drinkki.id}" th:text="${drinkki.nimi}">
+                    drinkki
+                </option>
+            </select> <br/>
+            Lis&auml;tt&auml;v&auml; raaka-aine<br/>
+            <select name="raakaAine">
+                <option th:each="raakaAine: ${raakaAineet}" th:value="${raakaAine.id}" th:text="${raakaAine.nimi}">
+                    raaka-aine
+                </option>
+            </select>
+            <br/>
+            J&auml;rjestys<br/>
+            <input name="jarjestys" type="text"/><br/>
+            M&auml;&auml;r&auml;<br/>
+            <input name="maara" type="text"/><br/>
+            Ohje<br/>
+            <input name="ohje" type="text"/><br/>
+            <input type="submit" value="Lisää"/>
+        </form>        <br>
+
+
+
+        </br>
+
+        <form method="post" action="/raakaaine">
+            Uusi raakaaine:<br/>
+            <input type="text" name="uusiraaka"/><br/>
+            <input type="submit" value="Lisää"/>
+        </form>
+
+
+
+
+    </body>
+</html>
