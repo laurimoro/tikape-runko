@@ -80,7 +80,7 @@ public class RaakaAineDao {
 
 
     public void delete(Integer key) throws SQLException {
-        // ei toteutettu
+        // ei toteutettut
     }
 
 }

@@ -1,4 +1,3 @@
-
 package tikape.runko.domain;
 
 public class RaakaAine {
@@ -26,5 +25,4 @@ public class RaakaAine {
     public void setNimi(String nimi) {
         this.nimi = nimi;
     }
-
 }

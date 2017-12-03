@@ -16,5 +16,21 @@
         </ol>
 
         <p><a href="/lisaa">Lisää drinkki</a></p>
+
+
+        <br>
+        </br>
+        <form method="POST" action="/poista">
+            Poista Drinkki: <br/>
+            <select name="drinkkinen">
+                <option th:each="drinkki: ${drinkit}" th:value="${drinkki.id}" th:text="${drinkki.nimi}">
+                    drinkki
+                </option>
+            </select> 
+            <input type="submit" value="Poista"/>
+            <br/>
+
+
+        </form>
     </body>
 </html>

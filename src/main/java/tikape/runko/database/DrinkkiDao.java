@@ -124,7 +124,13 @@ public class DrinkkiDao {
     }
 
     public void delete(Integer key) throws SQLException {
-        // ei toteutettu
-    }
 
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("DELETE FROM Drinkki WHERE id = ?");
+        stmt.setInt(1, key);
+        stmt.executeUpdate();
+        stmt.close();
+        connection.close();
+
+    }
 }

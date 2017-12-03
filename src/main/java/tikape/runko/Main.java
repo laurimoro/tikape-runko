@@ -77,5 +77,13 @@ public class Main {
             return "moikka";
         });
 
+        post("/poista", (req, res) -> {
+
+            drinkkiDao.delete(Integer.parseInt(req.queryParams("drinkkinen")));
+            System.out.println(req.queryParams("drinkkinen"));
+            res.redirect("/drinkit");
+            return null;
+        });
+
     }
 }
